@@ -14,7 +14,10 @@ def initialize_particles(N_particles=10,box_dimension = 5e-6):
 		particles[i,0:3] = np.random.uniform(-box_dimension,box_dimension,3)
 
 		#orientation as direction of each unit vector (every particle is a coordinate system)
-		orientation = np.random.uniform(0,2*np.pi,3)
+		
+		# orientation = np.random.uniform(0,2*np.pi,3)
+		orientation = np.random.uniform(0,0,3)
+		
 		particles[i,3:6] = orientation
 
 	#Draw the initial positions of the particles:
@@ -75,7 +78,7 @@ def phasor_sum(k,particles, wavevector_direction,detector_coordinates=np.array([
 		
 	return intensity
 
-def simulation(wavevectors,N_steps=10000,N_particles=10,step_size=10e-9,angular_step_size=(np.pi/20.0),draw=False):
+def simulation_simple(wavevectors,N_steps=10000,N_particles=10,step_size=10e-9,angular_step_size=(np.pi/20.0),draw=False):
 	particles = initialize_particles(N_particles) #this is our particles in the simulation
 	intensity_trace = np.zeros( (len(wavevectors),N_steps) ) # this is a log of the intensity trace
 	
@@ -88,13 +91,12 @@ def simulation(wavevectors,N_steps=10000,N_particles=10,step_size=10e-9,angular_
 			intensity_trace[j,i] = phasor_sum(k,particles,direction)
 
 	return intensity_trace
-	
 
 if __name__ == "__main__":
-	N_particles = 30
-	N_steps = 1000
-	step_size=10e-9,
-	angular_step_size=(np.pi/20.0)
+	N_particles = 1
+	N_steps = 50
+	step_size=50e-9,
+	angular_step_size=0#(np.pi/10.0)
 	v0 = np.array([1,0,0])
 	v1 = np.array([-1,0,0])
 	v1 = v1/np.linalg.norm(v1)
